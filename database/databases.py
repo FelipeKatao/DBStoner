@@ -25,7 +25,6 @@ def pesquisaBasica(campo,nome):
         return result
 
 def todosRegistros():
-    print(ContarRegistros())
     conection = sqlite3.connect("database/funcionarios.db")
     cursor = conection.cursor()
     QUERY_SQL = "SELECT * from funcionarios"
