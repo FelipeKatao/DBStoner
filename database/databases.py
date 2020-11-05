@@ -25,6 +25,7 @@ def pesquisaBasica(campo,nome):
         return result
 
 def todosRegistros():
+    print(ContarRegistros())
     conection = sqlite3.connect("database/funcionarios.db")
     cursor = conection.cursor()
     QUERY_SQL = "SELECT * from funcionarios"
@@ -33,14 +34,17 @@ def todosRegistros():
     conection.close()
     return result
 
-def adicionarFuncionario(id,name,age,ocupacion):
+def adicionarFuncionario(name,age,ocupacion):
     connection = sqlite3.connect("database/funcionarios.db")
     cursor = connection.cursor()
-    QUERY_SQL = "INSERT INTO funcionarios VALUES({idCod},'{nameArg}','{ageArg}','{ocupacionArg}')".format(nameArg=name,ageArg=age,ocupacionArg=ocupacion,idCod=id)
-    cursor.execute(QUERY_SQL)
-    connection.commit()
-    connection.close()
-    return "Dados Atualizdos com  sucesso!!"
+    if pesquisaBasica("nome",name) == ERROR_FIND:
+        QUERY_SQL = "INSERT INTO funcionarios VALUES({idCod},'{nameArg}','{ageArg}','{ocupacionArg}')".format(nameArg=name,ageArg=age,ocupacionArg=ocupacion,idCod=ContarRegistros()+1)
+        cursor.execute(QUERY_SQL)
+        connection.commit()
+        connection.close()
+        return "Dados Atualizdos com  sucesso!!"
+    else:
+        return "O usuario {a} Já existe no banco de dados".format(a=name)
 
 def removerFuncionario(funcionario):
     connection = sqlite3.connect("database/funcionarios.db")
@@ -54,3 +58,17 @@ def removerFuncionario(funcionario):
         connection.close()
         return " Registros de {nameID} foram apagadas com sucesso!!".format(nameID=funcionario)
 
+def ContarRegistros():
+    conection = sqlite3.connect("database/funcionarios.db")
+    cursor = conection.cursor()
+    QUERY_SQL = "SELECT count(*) from funcionarios"
+    result = cursor.execute(QUERY_SQL)
+    result = result.fetchall()
+    conection.close()
+    s = str(result)
+    s=s.replace('[','')
+    s= s.replace('(','')
+    s = s.replace(')','')
+    s = s.replace(']','')
+    s = s.replace(',','')
+    return int(s)
