@@ -1,9 +1,11 @@
 from sqlite3.dbapi2 import Connection, Cursor
 from flask import Flask,g,jsonify
 from flask.globals import request
+from flask_cors import CORS
 import database.databases 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def main():
