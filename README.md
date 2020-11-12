@@ -8,3 +8,6 @@ Solução criada com Python com o framework Flask, para que seja executada você
 
 * falsk
 * sqlLite3
+
+Para que rode na maquina tenha instalado o Python com os pacotes listados acima. 
+Se quiser ver a solução online temos uma versão online no Heroku: http://dbstoner.herokuapp.com/
